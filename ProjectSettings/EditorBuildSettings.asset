@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 1b7b4e4e819557b4992ae65c07bf60fe
+  - enabled: 1
+    path: Assets/Scenes/OnlineMenu.unity
+    guid: 1142c7600623df743b79b7e83bf93eea
+  - enabled: 1
+    path: Assets/Scenes/Client.unity
+    guid: f1e19d2539d56f24ea24bf38a95314aa
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: 35a65c7ccc16222489610a5e5c2b5354
+  - enabled: 1
+    path: Assets/Scenes/TheSkeld.unity
+    guid: a90a9294deac6f24aab8c131e33fa186
+  m_configObjects: {}
