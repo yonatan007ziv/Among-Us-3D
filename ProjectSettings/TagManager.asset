@@ -21,7 +21,6 @@ TagManager:
   - useable
   - SpawnPoints
   - Intro
-  - StartGameButtonParent
   layers:
   - Default
   - TransparentFX

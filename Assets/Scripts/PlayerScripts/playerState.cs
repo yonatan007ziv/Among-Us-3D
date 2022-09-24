@@ -7,7 +7,6 @@ public class playerState : StateMachine
 
     public Vector3 airMovementVector;
     public Vector3 movementVector;
-    public bool inputDisabled;
     public string currentStateName;
     public float speedMultiplier = 1;
     public float jumpHeight = 2.5f;
@@ -20,6 +19,21 @@ public class playerState : StateMachine
     public CharacterController cC;
     public Animator anim;
     public groundCeilingChecking gcC;
+
+    private bool _inputDisabled;
+    public bool inputDisabled
+    {
+        get 
+        { 
+            return _inputDisabled; 
+        }
+        set
+        {
+            horizontalInput = 0;
+            verticalInput = 0;
+            _inputDisabled = value;
+        }
+    }
 
     //States
     [HideInInspector]

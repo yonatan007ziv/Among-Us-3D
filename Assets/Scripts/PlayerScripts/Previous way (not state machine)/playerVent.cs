@@ -9,34 +9,31 @@ using UnityEngine.UI;
 
 public class playerVent : NetworkBehaviour
 {
+    public bool movingVents;
+    public bool finishedInterpolating = true;
     public float timeToVent = 0.75f;
+    public bool inVent;
     private playerState playerState;
     private GameObject useBtn;
     private Transform player;
     private Transform eyes;
-    private playerState pState;
     private messagesBetweenPlayers msgPlayers;
     private playerUse pUse;
     private CharacterController cController;
     private Transform eyesMiddle;
     private playerLean playerLean;
     private List<Transform> vents = new List<Transform>();
-    private Transform enterableVent;
     private float distanceForVent = 5;
     private float currentDistance;
     private string currentVentName;
-    public bool inVent;
-    private bool finishedInterpolating = true;
     private int currentVentGroup = -1;
     private int currentVentIndexInGroup = -1;
     private bool exitingVent;
-    private bool movingVents;
     private void Start()
     {
         player = transform;
         useBtn = transform.Find("PlayerCanvas/UseButton").gameObject;
         eyes = transform.Find("Eyes");
-        pState = GetComponent<playerState>();
         msgPlayers = GetComponent<messagesBetweenPlayers>();
         playerState = GetComponent<playerState>();
         cController = GetComponent<CharacterController>();
@@ -105,7 +102,6 @@ public class playerVent : NetworkBehaviour
             {
                 useBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/Buttons/ventButton");
                 pUse.useButton.interactable = true;
-                enterableVent = vent;
                 pUse.currentUseable = vent;
                 currentVentName = vent.name;
                 currentDistance = distance;
@@ -114,7 +110,6 @@ public class playerVent : NetworkBehaviour
             {
                 useBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/Buttons/useButton");
                 pUse.useButton.interactable = false;
-                enterableVent = null;
                 pUse.currentUseable = null;
                 currentDistance = distanceForVent;
             }
@@ -148,11 +143,8 @@ public class playerVent : NetworkBehaviour
         Destroy(blackTransitionOut);
         movingVents = false;
     }
-    public IEnumerator useVent()
+    public IEnumerator useVent(Transform vent)
     {
-        if (!finishedInterpolating || movingVents || enterableVent == null)
-            yield break;
-        
         if (inVent)
         {
             exitingVent = true;
@@ -162,27 +154,27 @@ public class playerVent : NetworkBehaviour
             exitingVent = false;
             currentVentGroup = -1;
             currentVentIndexInGroup = -1;
-            pState.inputDisabled = false;
             inVent = false;
             playerLean.inVent = false;
+
+            playerState.inputDisabled = false;
         }
         else
         {
-            pState.inputDisabled = true;
             inVent = true;
             playerLean.inVent = true;
 
-            StartCoroutine(moveToPosSpherically(enterableVent.GetChild(0), false));
+            StartCoroutine(moveToPosSpherically(vent.GetChild(0), false));
             while (!finishedInterpolating)
                 yield return new WaitForEndOfFrame();
             
             cController.enabled = false;
-            player.position = new Vector3(enterableVent.position.x, player.position.y, enterableVent.position.z);
-            eyes.position = enterableVent.GetChild(0).position;
+            player.position = new Vector3(vent.position.x, player.position.y, vent.position.z);
+            eyes.position = vent.GetChild(0).position;
             cController.enabled = true;
             
-            currentVentGroup = int.Parse(enterableVent.name.Substring(0,1));
-            currentVentIndexInGroup = int.Parse(enterableVent.name.Substring(1,1));
+            currentVentGroup = int.Parse(vent.name.Substring(0,1));
+            currentVentIndexInGroup = int.Parse(vent.name.Substring(1,1));
         }
     }
     IEnumerator moveToPosSpherically(Transform posTo, bool visible)
@@ -216,6 +208,7 @@ public class playerVent : NetworkBehaviour
             }
             yield return new WaitForEndOfFrame();
         }
+
         playerState.ChangeState(playerState.idleState);
 
         if (!visible)

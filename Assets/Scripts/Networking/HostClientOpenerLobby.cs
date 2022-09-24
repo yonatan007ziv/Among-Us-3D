@@ -8,7 +8,7 @@ public class HostClientOpenerLobby : MonoBehaviour
         if (GameObject.FindGameObjectWithTag("hostTag") != null)
         {
             NetworkManager.singleton.StartHost();
-            Instantiate(Resources.Load<GameObject>("LobbyShit/LobbyStartButton"), GameObject.FindGameObjectWithTag("StartGameButtonParent").transform);
+            Instantiate(Resources.Load<GameObject>("LobbyShit/LobbyStartButton"));
         }
         else if (GameObject.FindGameObjectWithTag("clientTag") != null)
         {

@@ -22,7 +22,20 @@ public class playerLean : MonoBehaviour
     {
         Vector3 localEulerAnglesEyes = eyes.localEulerAngles;
         if (inVent)
+        {
+            timerNone += Time.deltaTime * speed;
+
+            playerRotationHeadSpine.leanZ = Mathf.Lerp(playerRotationHeadSpine.leanZ, 0, timerNone);
+
+            totalRot = Quaternion.Slerp(Quaternion.Euler(localEulerAnglesEyes),
+                Quaternion.Euler(new Vector3(localEulerAnglesEyes.x, localEulerAnglesEyes.y,
+                    eyesMiddle.localEulerAngles.z)), timerNone * rotationSpeedMultiplier).eulerAngles;
+
+            timerRight = 0;
+            timerLeft = 0;
             return;
+        }
+
         if (_sm.inputDisabled)
         {
             timerNone += Time.deltaTime * speed;
