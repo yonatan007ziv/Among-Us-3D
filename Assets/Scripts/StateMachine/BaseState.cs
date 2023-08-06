@@ -1,8 +1,8 @@
-using Mirror;
 public class BaseState
 {
-    public string name;
-    protected StateMachine stateMachine;
+    public readonly string name;
+    public readonly StateMachine stateMachine;
+
     public BaseState(string name, StateMachine stateMachine)
     {
         this.name = name;

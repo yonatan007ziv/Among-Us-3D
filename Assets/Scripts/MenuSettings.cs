@@ -8,10 +8,10 @@ public class MenuSettings : NetworkBehaviour
     public GameObject FpsLimitDropdown;
     public Slider sensSlider;
     public TMP_InputField sensInput;
-    private playerLook playerLook;
+    private PlayerLook playerLook;
     private void Start()
     {
-        playerLook = GetComponent<playerLook>();
+        playerLook = GetComponent<PlayerLook>();
     }
     public void changeSensitivitySlider()
     {

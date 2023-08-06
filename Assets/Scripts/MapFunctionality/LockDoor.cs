@@ -1,14 +1,15 @@
+using Mirror;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using Mirror;
+
 public class LockDoor : MonoBehaviour
 {
     public int timer = 40;
     private bool doorsLocked;
 
-    public void lockDoor()
+    public void Lock()
     {
         if (!doorsLocked)
         {
@@ -28,14 +29,14 @@ public class LockDoor : MonoBehaviour
             }
 
             GameObject localPlayer = NetworkClient.localPlayer.gameObject;
-            if (localPlayer.GetComponent<playerState>().isImposter)
-                StartCoroutine(lockDoorTimer(localPlayer));
+            if (localPlayer.GetComponent<PlayerStateMachine>() is ImposterStateMachine)
+                StartCoroutine(LockTimer(localPlayer));
             else
-                StartCoroutine(lockDoorTimer());
+                StartCoroutine(LockNoTimer());
         }
     }
 
-    IEnumerator lockDoorTimer()
+    IEnumerator LockNoTimer()
     {
         while (timer > 30)
         {
@@ -62,7 +63,8 @@ public class LockDoor : MonoBehaviour
         doorsLocked = false;
         timer = 40;
     }
-    IEnumerator lockDoorTimer(GameObject imposter) // with timer
+
+    IEnumerator LockTimer(GameObject imposter)
     {
         Transform btn = imposter.transform.Find("PlayerCanvas/ImposterMap/" + gameObject.name);
         btn.GetComponent<Button>().interactable = false;

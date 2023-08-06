@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Startup : MonoBehaviour
 {
-    //main menu startup
+    // Main Menu Startup
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;

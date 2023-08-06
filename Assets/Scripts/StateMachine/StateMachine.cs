@@ -1,35 +1,37 @@
+using System;
 using UnityEngine;
-using Mirror;
-public class StateMachine : NetworkBehaviour
+
+public abstract class StateMachine : MonoBehaviour
 {
-    protected BaseState currentState;
+    public BaseState CurrentState { get; private set; }
+
     private void Start()
     {
-        currentState = getInitialState();
-        if (currentState != null)
-            currentState.Enter();
+        CurrentState = GetInitialState();
+        CurrentState?.Enter();
     }
+
     private void Update()
     {
-        if (currentState != null)
-            currentState.UpdateLogic();
+        CurrentState?.UpdateLogic();
     }
+
     private void LateUpdate()
     {
-        if (currentState != null)
-            currentState.UpdatePhysics();
+        CurrentState?.UpdatePhysics();
     }
+
     public void ChangeState(BaseState newState)
     {
-        if (newState == currentState)
-            return;
+        if (newState == CurrentState)
+        {
+            Debug.LogError("Transitioned to the Same State!");
+            throw new Exception();
+        }
 
-        currentState.Exit();
-        currentState = newState;
-        currentState.Enter();
+        CurrentState?.Exit();
+        CurrentState = newState;
+        CurrentState?.Enter();
     }
-    protected virtual BaseState getInitialState()
-    {
-        return null;
-    }
+    protected abstract BaseState GetInitialState();
 }

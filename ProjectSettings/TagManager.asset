@@ -15,12 +15,12 @@ TagManager:
   - hostTag
   - clientTag
   - LobbyTimer
-  - colorTab
   - Imposter
   - Useable
   - useable
   - SpawnPoints
   - Intro
+  - ColorTab
   layers:
   - Default
   - TransparentFX
